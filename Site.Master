@@ -1,0 +1,159 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.Master.cs" Inherits="SweetDelights.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%: Page.Title %> - Sweet Delights Bakery</title>
+    <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="bg-rose-50/40 text-slate-800 antialiased min-h-screen flex flex-col">
+    <form id="form1" runat="server" enctype="multipart/form-data">
+
+        <!-- TOP ANNOUNCEMENT BAR -->
+        <div class="bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 text-white text-xs py-2 px-4 text-center font-medium shadow-sm flex items-center justify-between">
+            <div class="hidden sm:flex items-center gap-2">
+                <span class="bg-white/20 px-2.5 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1">
+                    <i class="fa-solid fa-seedling text-emerald-300"></i> 100% Eggless Bakery Options
+                </span>
+                <span class="text-white/80">&bull; Free Home Delivery Above &#8377;500</span>
+            </div>
+            <div class="mx-auto sm:mx-0 flex items-center gap-4">
+                <span><i class="fa-solid fa-phone text-xs"></i> Hotline: +91 98765 43210</span>
+            </div>
+        </div>
+
+        <!-- NAVIGATION HEADER -->
+        <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-rose-100 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <a href="Default.aspx" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-white text-xl shadow-md group-hover:scale-105 transition">
+                        <i class="fa-solid fa-cake-candles"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif-heading text-2xl font-bold tracking-tight bg-gradient-to-r from-rose-700 via-pink-700 to-amber-700 bg-clip-text text-transparent">Sweet Delights</span>
+                        <span class="block text-[10px] font-semibold tracking-wider text-rose-500 uppercase">Bakery & Patisserie</span>
+                    </div>
+                </a>
+
+                <!-- PUBLIC NAVIGATION MENU -->
+                <nav class="hidden lg:flex items-center gap-6 font-medium text-slate-700 text-sm">
+                    <a href="Default.aspx" class="nav-link hover:text-rose-600 transition flex items-center gap-1.5"><i class="fa-solid fa-house text-rose-400"></i> Home</a>
+                    <a href="Show_Company.aspx" class="nav-link hover:text-rose-600 transition flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-rose-400"></i> Categories</a>
+                    <a href="Show_Products.aspx" class="nav-link hover:text-rose-600 transition flex items-center gap-1.5"><i class="fa-solid fa-cake-candles text-rose-400"></i> Catalog</a>
+                    <a href="CustomCake.aspx" class="nav-link hover:text-rose-600 transition flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Custom Cake</a>
+                    <a href="About.aspx" class="nav-link hover:text-rose-600 transition flex items-center gap-1.5"><i class="fa-solid fa-heart text-rose-400"></i> About Us</a>
+                    <a href="Contact.aspx" class="nav-link hover:text-rose-600 transition flex items-center gap-1.5"><i class="fa-solid fa-envelope text-rose-400"></i> Contact</a>
+                </nav>
+
+                <div class="flex items-center gap-3">
+                    
+                    <asp:Panel ID="pnlUserLoggedOut" runat="server" CssClass="flex items-center gap-2">
+                        <a href="Login.aspx" class="text-xs font-bold text-slate-700 hover:text-rose-600 px-3 py-2 rounded-xl transition flex items-center gap-1">
+                            <i class="fa-solid fa-right-to-bracket text-rose-500"></i> Login
+                        </a>
+                        <a href="insert.aspx" class="text-xs font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-3 py-2 rounded-xl transition border border-rose-200">
+                            Register
+                        </a>
+                    </asp:Panel>
+
+                    <asp:Panel ID="pnlUserLoggedIn" runat="server" Visible="false" CssClass="flex items-center gap-2">
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-circle"></i> <asp:Label ID="lblUserGreeting" runat="server"></asp:Label>
+                        </span>
+                        <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" CssClass="text-xs font-bold text-rose-600 hover:text-rose-800 px-2 py-1">Logout</asp:LinkButton>
+                    </asp:Panel>
+
+                    <button type="button" onclick="toggleCartDrawer()" class="relative p-2.5 rounded-full bg-rose-50 text-rose-700 hover:bg-rose-100 transition shadow-sm border border-rose-200">
+                        <i class="fa-solid fa-cart-shopping text-base"></i>
+                        <span class="cart-badge-count absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm hidden">0</span>
+                    </button>
+
+                    <button type="button" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-rose-50 text-lg">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div id="mobileNavMenu" class="hidden lg:hidden border-t border-rose-100 bg-white px-4 py-4 space-y-3 font-semibold text-sm">
+                <a href="Default.aspx" class="block py-1 text-slate-700">Home</a>
+                <a href="Show_Company.aspx" class="block py-1 text-slate-700">Categories</a>
+                <a href="Show_Products.aspx" class="block py-1 text-slate-700">Catalog</a>
+                <a href="CustomCake.aspx" class="block py-1 text-slate-700">Custom Cake Studio</a>
+                <a href="Login.aspx" class="block py-1 text-rose-600">User Login / Register</a>
+            </div>
+        </header>
+
+        <main class="flex-grow">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+
+        <footer class="bg-slate-950 text-slate-400 text-xs py-10 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+                <div class="space-y-3">
+                    <a href="Default.aspx" class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-white text-sm font-bold">🎂</div>
+                        <span class="font-serif-heading text-lg font-bold text-white">Sweet Delights</span>
+                    </a>
+                    <p class="text-slate-400 text-xs leading-relaxed">ASP.NET Web Forms application with artisanal bakery cakes, macarons, and custom cakes.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-3">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="Default.aspx" class="hover:text-rose-400 transition">Home Page</a></li>
+                        <li><a href="Show_Company.aspx" class="hover:text-rose-400 transition">Categories (Show_Company)</a></li>
+                        <li><a href="Add_Company.aspx" class="hover:text-rose-400 transition">Add Category Portal</a></li>
+                        <li><a href="Add_Products.aspx" class="hover:text-rose-400 transition">Add Product Portal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-3">Account</h4>
+                    <ul class="space-y-2">
+                        <li><a href="Login.aspx" class="hover:text-rose-400 transition">User Login</a></li>
+                        <li><a href="Register.aspx" class="hover:text-rose-400 transition">Register Account</a></li>
+                        <li><a href="insert.aspx" class="hover:text-rose-400 transition">User CRUD Portal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-3">Order Hotline</h4>
+                    <p class="text-xs text-slate-400">Call / WhatsApp us directly:</p>
+                    <div class="mt-2 font-bold text-sm text-rose-400">+91 98765 43210</div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 border-t border-slate-800 pt-4 text-center">
+                <p>© 2026 Sweet Delights Bakery (ASP.NET Web Forms). All rights reserved.</p>
+            </div>
+        </footer>
+
+        <div id="globalCartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleCartDrawer(false)"></div>
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div class="pointer-events-auto w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                    <div class="p-6 bg-rose-50 border-b border-rose-100 flex items-center justify-between">
+                        <h3 class="font-serif-heading text-lg font-bold text-slate-900">Shopping Basket</h3>
+                        <button type="button" onclick="toggleCartDrawer(false)" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div id="drawerCartItems" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+                    <div class="p-6 bg-slate-50 border-t border-slate-200 space-y-4">
+                        <div class="flex justify-between text-sm font-bold text-slate-900">
+                            <span>Subtotal:</span>
+                            <span id="drawerSubtotal" class="text-rose-600 font-serif-heading text-lg">₹0</span>
+                        </div>
+                        <a href="Cart.aspx" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-2xl shadow transition text-center block text-xs">View Cart & Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <script src="js/main.js"></script>
+</body>
+</html>
